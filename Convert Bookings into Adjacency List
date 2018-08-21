@@ -1,13 +1,22 @@
-Sub createList()
+Sub createWorkerProjectMatrix()
+    'REQUIREMENTS: 
+    '       Needs a Sheet "BookingData", where the bookings of each Worker are into.
+    '           First Column = Name of Worker
+    '       Needs a Sheet "WorkerProjMatrix", where the first column is the list of workers and the columns are the list of projects
+    'DOES:
+    '       Fills a Matrix where the rows are the workers and the columns are projects. The (i,j)-th entry is 1 iff Worker i has booked on project j
+    'RESULT:
+    '       WorkerProjectMatrix
+    
     j = 2
     While ThisWorkbook.Sheets("BookingData").Cells(j, 1) <> ""
         n = 2
-        While ThisWorkbook.Sheets("List").Cells(n, 1) <> ""
-            If CStr(ThisWorkbook.Sheets("BookingData").Cells(j, 2)) = CStr(ThisWorkbook.Sheets("List").Cells(n, 1)) Then
+        While ThisWorkbook.Sheets("WorkerProjMatrix").Cells(n, 1) <> ""
+            If CStr(ThisWorkbook.Sheets("BookingData").Cells(j, 2)) = CStr(ThisWorkbook.Sheets("WorkerProjMatrix").Cells(n, 1)) Then
                 m = 2
-                While ThisWorkbook.Sheets("List").Cells(1, m) <> ""
-                    If CStr(ThisWorkbook.Sheets("List").Cells(1, m)) = CStr(ThisWorkbook.Sheets("BookingData").Cells(j, 1)) Then
-                        ThisWorkbook.Sheets("List").Cells(n, m) = 1
+                While ThisWorkbook.Sheets("WorkerProjMatrix").Cells(1, m) <> ""
+                    If CStr(ThisWorkbook.Sheets("WorkerProjMatrix").Cells(1, m)) = CStr(ThisWorkbook.Sheets("BookingData").Cells(j, 1)) Then
+                        ThisWorkbook.Sheets("WorkerProjMatrix").Cells(n, m) = 1
                         GoTo Sprungstelle
                     End If
                     m = m + 1
@@ -25,15 +34,15 @@ Sub createAdjacencyList()
     n = 1
     While ThisWorkbook.Sheets("AdjList").Cells(n, 1) <> ""
         m = 2
-        While ThisWorkbook.Sheets("List").Cells(1, m) <> ""
-            If ThisWorkbook.Sheets("List").Cells(1, m) = ThisWorkbook.Sheets("AdjList").Cells(n, 1) Then
+        While ThisWorkbook.Sheets("WorkerProjMatrix").Cells(1, m) <> ""
+            If ThisWorkbook.Sheets("WorkerProjMatrix").Cells(1, m) = ThisWorkbook.Sheets("AdjList").Cells(n, 1) Then
                 k = 2
-                While ThisWorkbook.Sheets("List").Cells(k, 1) <> ""
+                While ThisWorkbook.Sheets("WorkerProjMatrix").Cells(k, 1) <> ""
                     
-                    If ThisWorkbook.Sheets("List").Cells(k, m) = 1 Then
+                    If ThisWorkbook.Sheets("WorkerProjMatrix").Cells(k, m) = 1 Then
                         i = 2
                         While ThisWorkbook.Sheets("config").Cells(i, 1) <> ""
-                            If ThisWorkbook.Sheets("config").Cells(i, 1) = ThisWorkbook.Sheets("List").Cells(k, 1) Then
+                            If ThisWorkbook.Sheets("config").Cells(i, 1) = ThisWorkbook.Sheets("WorkerProjMatrix").Cells(k, 1) Then
                                 GoTo Sprungstelle
                             End If
                             i = i + 1
@@ -41,9 +50,9 @@ Sub createAdjacencyList()
                         
                         j = 2
                         h = 2
-                        While ThisWorkbook.Sheets("List").Cells(1, j) <> ""
-                            If ThisWorkbook.Sheets("List").Cells(k, j) = 1 And j <> m Then
-                                ThisWorkbook.Sheets("AdjList").Cells(n, h) = ThisWorkbook.Sheets("List").Cells(1, j)
+                        While ThisWorkbook.Sheets("WorkerProjMatrix").Cells(1, j) <> ""
+                            If ThisWorkbook.Sheets("WorkerProjMatrix").Cells(k, j) = 1 And j <> m Then
+                                ThisWorkbook.Sheets("AdjList").Cells(n, h) = ThisWorkbook.Sheets("WorkerProjMatrix").Cells(1, j)
                                 h = h + 1
                             End If
                             j = j + 1
