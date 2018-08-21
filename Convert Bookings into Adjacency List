@@ -31,6 +31,17 @@ End Sub
 
 
 Sub createAdjacencyList()
+    'REQUIREMENTS: 
+    '       The WorkerProjectMatrix which is filled by the Sub above
+    '       A List of Projects which should be ignored in the Sheet "config"
+    '       Empty Sheet AdjList
+    'DOES:
+    '       Iterates through the WorkersProjectMatrix if two workers have booked on the same project (Entry in the same column is 1)
+    '       If they have booked on the same project there will be added a undirected edge by adding the two worker names to the
+    '       (adjacency list) AdjList
+    'RETURN:
+    '       Adjacency List to create a graph e.g. in gephi
+    '
     n = 1
     While ThisWorkbook.Sheets("AdjList").Cells(n, 1) <> ""
         m = 2
@@ -68,23 +79,4 @@ Sprungstelle:
 jump:
         n = n + 1
     Wend
-End Sub
-
-Sub createOutput()
-    n = 1
-    k = 1
-    While ThisWorkbook.Sheets("AdjList").Cells(n, 1) <> ""
-        m = 2
-        While ThisWorkbook.Sheets("AdjList").Cells(1, m) <> ""
-            ThisWorkbook.Sheets("Output").Cells(k, 1) = ThisWorkbook.Sheets("AdjList").Cells(n, 1)
-            ThisWorkbook.Sheets("Output").Cells(k, 2) = ThisWorkbook.Sheets("AdjList").Cells(n, m)
-            m = m + 1
-            k = k + 1
-        Wend
-        If m = 2 Then
-            ThisWorkbook.Sheets("Output").Cells(k, 1) = ThisWorkbook.Sheets("AdjList").Cells(n, 1)
-        End If
-        n = n + 1
-    Wend
-
 End Sub
