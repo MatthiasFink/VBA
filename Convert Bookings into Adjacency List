@@ -1,0 +1,81 @@
+Sub createList()
+    j = 2
+    While ThisWorkbook.Sheets("BookingData").Cells(j, 1) <> ""
+        n = 2
+        While ThisWorkbook.Sheets("List").Cells(n, 1) <> ""
+            If CStr(ThisWorkbook.Sheets("BookingData").Cells(j, 2)) = CStr(ThisWorkbook.Sheets("List").Cells(n, 1)) Then
+                m = 2
+                While ThisWorkbook.Sheets("List").Cells(1, m) <> ""
+                    If CStr(ThisWorkbook.Sheets("List").Cells(1, m)) = CStr(ThisWorkbook.Sheets("BookingData").Cells(j, 1)) Then
+                        ThisWorkbook.Sheets("List").Cells(n, m) = 1
+                        GoTo Sprungstelle
+                    End If
+                    m = m + 1
+                Wend
+            End If
+            n = n + 1
+        Wend
+Sprungstelle:
+        j = j + 1
+    Wend
+End Sub
+
+
+Sub createAdjacencyList()
+    n = 1
+    While ThisWorkbook.Sheets("AdjList").Cells(n, 1) <> ""
+        m = 2
+        While ThisWorkbook.Sheets("List").Cells(1, m) <> ""
+            If ThisWorkbook.Sheets("List").Cells(1, m) = ThisWorkbook.Sheets("AdjList").Cells(n, 1) Then
+                k = 2
+                While ThisWorkbook.Sheets("List").Cells(k, 1) <> ""
+                    
+                    If ThisWorkbook.Sheets("List").Cells(k, m) = 1 Then
+                        i = 2
+                        While ThisWorkbook.Sheets("config").Cells(i, 1) <> ""
+                            If ThisWorkbook.Sheets("config").Cells(i, 1) = ThisWorkbook.Sheets("List").Cells(k, 1) Then
+                                GoTo Sprungstelle
+                            End If
+                            i = i + 1
+                        Wend
+                        
+                        j = 2
+                        h = 2
+                        While ThisWorkbook.Sheets("List").Cells(1, j) <> ""
+                            If ThisWorkbook.Sheets("List").Cells(k, j) = 1 And j <> m Then
+                                ThisWorkbook.Sheets("AdjList").Cells(n, h) = ThisWorkbook.Sheets("List").Cells(1, j)
+                                h = h + 1
+                            End If
+                            j = j + 1
+                        Wend
+                    End If
+Sprungstelle:
+                    k = k + 1
+                Wend
+                GoTo jump
+            End If
+            m = m + 1
+        Wend
+jump:
+        n = n + 1
+    Wend
+End Sub
+
+Sub createOutput()
+    n = 1
+    k = 1
+    While ThisWorkbook.Sheets("AdjList").Cells(n, 1) <> ""
+        m = 2
+        While ThisWorkbook.Sheets("AdjList").Cells(1, m) <> ""
+            ThisWorkbook.Sheets("Output").Cells(k, 1) = ThisWorkbook.Sheets("AdjList").Cells(n, 1)
+            ThisWorkbook.Sheets("Output").Cells(k, 2) = ThisWorkbook.Sheets("AdjList").Cells(n, m)
+            m = m + 1
+            k = k + 1
+        Wend
+        If m = 2 Then
+            ThisWorkbook.Sheets("Output").Cells(k, 1) = ThisWorkbook.Sheets("AdjList").Cells(n, 1)
+        End If
+        n = n + 1
+    Wend
+
+End Sub
